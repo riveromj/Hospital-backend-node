@@ -9,7 +9,7 @@ const app = express();
 // configuracion del cors
 app.use(cors());
 
-//mongodb+srv://usertest:123456aaasss@micluster.kknqj.mongodb.net/hospitaldb
+
 //base de datos
 dbConnection();
 console.log(process.env)
