@@ -1,5 +1,6 @@
 const { response } = require( 'express' );
-const { validationResult } = require( 'express-validator' );
+
+const bcrypt =  require('bcryptjs');
 
 const User = require('../models/users');
 
@@ -13,17 +14,8 @@ const getUsers = async (req,res)=>{
 const createUser = async (req,res = response)=>{
     const { name , password, email } = req.body;
 
-    const errors = validationResult( req );
-
-    if (!errors.isEmpty()){
-        return res.status(400).json({
-            ok:false,
-            errors: errors.mapped()
-        })
-    }
     try {
-        const isEmail = User.findOne({email});
-        console.log(isEmail,'****************');
+        const isEmail =  await User.findOne({email});
         if (isEmail){
             return  res.status(400).json({
                 ok:false,
@@ -31,10 +23,13 @@ const createUser = async (req,res = response)=>{
             })
         }
         const user = new User(req.body);
+
+        //encriptar password
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(password, salt);
+
         await user.save();
-        res.json({
-           user
-        })
+        res.json(user)
         
     } catch (error) {
         res.status(500).json({
