@@ -3,6 +3,7 @@ const { response } = require( 'express' );
 const bcrypt =  require('bcryptjs');
 
 const User = require('../models/users');
+const { emit } = require('../models/users');
 
 const getUsers = async (req,res)=>{
     const users = await User.find({}, ' name email role google');
@@ -40,7 +41,52 @@ const createUser = async (req,res = response)=>{
   
 }
 
+const updateUsers = async (req,res = response)=>{
+    
+        //TODO: validar token y comprobar si es el usuario correcto.
+    
+    const { id } = req.params;
+
+    try {
+        const userId = await User.findById(id);
+
+        if(!userId){
+            return res.status(400).json({
+                ok:false,
+                msg:"User not exist"
+            })
+        }
+        //update user
+        const { password, google, email, ...attributes } = req.body;
+            const emailExist = await User.findOne({ email });
+            
+            if (emailExist){
+                return res.status(400).json({
+                    ok:false,
+                    msg:"There is already a user with this email"
+                })
+            }
+            
+        /* delete attributes.password;
+        delete attributes.google; */
+        attributes.email = email;
+        const userUpdate = await User.findByIdAndUpdate(userId, attributes, { new: true });
+        res.json({
+            ok:200,
+            user:userUpdate
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg:'error inesperado'
+        })
+    }
+  
+}
+
 module.exports={
     getUsers,
-    createUser
+    createUser,
+    updateUsers
 }

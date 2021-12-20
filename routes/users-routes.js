@@ -2,7 +2,7 @@
         /api/users
 */
 
-const { getUsers, createUser } = require( '../controllers/users.controller');
+const { getUsers, createUser, updateUsers } = require( '../controllers/users.controller');
 
 const { Router } = require("express")
 const { check } = require('express-validator')
@@ -19,6 +19,12 @@ router.post('/',
     check('email', 'el email es obligatorio').isEmail(),
     validatorInput
 ], createUser );
+router.put('/:id',[
+    check('name','el nombre es obligatorio').not().isEmpty(),
+    check('email', 'el email es obligatorio').isEmail(),
+    check('role', 'el role es obligatorio').not().isEmpty(),
+    validatorInput
+], updateUsers );
  
 
 
