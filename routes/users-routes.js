@@ -2,7 +2,7 @@
         /api/users
 */
 
-const { getUsers, createUser, updateUsers } = require( '../controllers/users.controller');
+const { getUsers, createUser, updateUsers, deleteUser } = require( '../controllers/users.controller');
 
 const { Router } = require("express")
 const { check } = require('express-validator')
@@ -25,6 +25,7 @@ router.put('/:id',[
     check('role', 'el role es obligatorio').not().isEmpty(),
     validatorInput
 ], updateUsers );
+router.delete('/:id', deleteUser );
  
 
 
