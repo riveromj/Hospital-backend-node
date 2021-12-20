@@ -1,7 +1,10 @@
 const { response } = require("express");
 const bcrypt =  require('bcryptjs');
 
+const { generateJWT } =  require('../helpers/jwt')
+
 const User =  require('../models/users');
+const req = require("express/lib/request");
 
 const login =  async (req, res = response)=>{
     const { email, password } = req.body;
@@ -22,10 +25,14 @@ const login =  async (req, res = response)=>{
                 msg:" usuario incorrecto"
             });
         }
+
+
+
         //TODO: generer jwt
+        const token = await generateJWT( userDB.id );
         res.json({
             ok:true,
-            msg:" usuario"
+            token: token
         })
         
     } catch (error) {
