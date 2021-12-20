@@ -32,4 +32,11 @@ const UserSchema = Schema({
     }
 })
 
+//cambiar el _id por defecto por id y eliminar de objeto la password
+
+UserSchema.method('toJSON', function (){
+    const { __v, _id, password, ...object } = this.toObject();
+    object.id = _id;
+    return object;
+})
 module.exports = model('User', UserSchema);

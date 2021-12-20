@@ -9,17 +9,16 @@ const app = express();
 // configuracion del cors
 app.use(cors());
 
-//mongodb+srv://usertest:123456aaasss@micluster.kknqj.mongodb.net/hospitaldb
+//lectura y parceo body
+app.use( express.json());
+
+
 //base de datos
 dbConnection();
 console.log(process.env)
 //Rutas
-app.get('/', (req,res)=>{
-    res.json({
-        ok:true,
-        msg:"hola mundo"
-    })
-})
+app.use( '/api/users', require('./routes/users-routes'));
+app.use( '/api/auth', require('./routes/auth-routes'))
 
 app.listen(process.env.PORT, ()=>{
     console.log('corriendo el servidor en el puerto '+ process.env.PORT);
