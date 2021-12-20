@@ -10,8 +10,12 @@ const getUsers = async (req,res)=>{
     const users = await User.find({}, ' name email role google');
     console.log(users);
    
-    res.json(
-        users
+    res.json({
+        ok:true,
+        users,
+        id: req.id
+    }
+        
     )
 }
 
@@ -51,6 +55,7 @@ const createUser = async (req,res = response)=>{
 const updateUsers = async (req,res = response)=>{
     
         //TODO: validar token y comprobar si es el usuario correcto.
+        
     
     const { id } = req.params;
 
