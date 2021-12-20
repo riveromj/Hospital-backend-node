@@ -7,7 +7,7 @@ const { getUsers, createUser, updateUsers, deleteUser } = require( '../controlle
 const { Router } = require("express")
 const { check } = require('express-validator')
 
-const { validatorInput } = require('../middlewares/validators')
+const { validateInput } = require('../middlewares/validators')
 
 const router = Router();
 
@@ -17,13 +17,13 @@ router.post('/',
     check('name','el nombre es obligatorio').not().isEmpty(),
     check('password', 'el password es obligatorio').not().isEmpty(),
     check('email', 'el email es obligatorio').isEmail(),
-    validatorInput
+    validateInput
 ], createUser );
 router.put('/:id',[
     check('name','el nombre es obligatorio').not().isEmpty(),
     check('email', 'el email es obligatorio').isEmail(),
     check('role', 'el role es obligatorio').not().isEmpty(),
-    validatorInput
+    validateInput
 ], updateUsers );
 router.delete('/:id', deleteUser );
  
