@@ -26,9 +26,7 @@ const login =  async (req, res = response)=>{
             });
         }
 
-
-
-        //TODO: generer jwt
+        //generar jwt
         const token = await generateJWT( userDB.id );
         res.json({
             ok:true,
