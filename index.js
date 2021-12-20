@@ -17,7 +17,8 @@ app.use( express.json());
 dbConnection();
 console.log(process.env)
 //Rutas
-app.use( '/api/users', require('./routes/users-routes'))
+app.use( '/api/users', require('./routes/users-routes'));
+app.use( '/api/auth', require('./routes/auth-routes'))
 
 app.listen(process.env.PORT, ()=>{
     console.log('corriendo el servidor en el puerto '+ process.env.PORT);
