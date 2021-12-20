@@ -3,7 +3,7 @@ const { response } = require( 'express' );
 const bcrypt =  require('bcryptjs');
 
 const User = require('../models/users');
-const { emit } = require('../models/users');
+
 
 const getUsers = async (req,res)=>{
     const users = await User.find({}, ' name email role google');
@@ -85,8 +85,35 @@ const updateUsers = async (req,res = response)=>{
   
 }
 
+const deleteUser = async (req, res = response )=>{
+    const { id } = req.params;
+    try {
+        const userId = await User.findById(id);
+
+        if(!userId){
+            return res.status(400).json({
+                ok:false,
+                msg:"User not exist"
+            })
+        }
+
+        userDelete = await User.findByIdAndDelete(id);
+        res.json({
+            ok:true,
+            msg:"usuario eliminado"
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            ok:false,
+            msg: "error inesperado"
+        })
+    }
+}
+
 module.exports={
     getUsers,
     createUser,
-    updateUsers
+    updateUsers, 
+    deleteUser
 }
