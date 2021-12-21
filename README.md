@@ -15,3 +15,8 @@ Encriptar password
 ```
 npm i bcryptjs
 ```
+
+Generar Token
+```
+npm i jsonwebtoken
+```
