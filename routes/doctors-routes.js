@@ -18,7 +18,7 @@ const router = Router();
 router.get('/',  getDoctors);
 router.post('/', 
 [
-    
+    validateJWT
 ], createDoctor );
 router.put('/:id',[
     
