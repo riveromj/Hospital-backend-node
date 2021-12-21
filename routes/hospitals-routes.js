@@ -13,9 +13,11 @@ const { validateJWT } =  require('../middlewares/validate-jw')
 const router = Router();
 
 router.get('/', getHospitals );
-router.post('/', 
+router.post('/',  
 [
-    
+    validateJWT,
+    check('name', 'el nombre del hospital es obligatorio').not().isEmpty(),
+    validateInput
 ], createHospital );
 router.put('/:id',[
     
