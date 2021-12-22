@@ -15,8 +15,8 @@ const getUsers = async (req,res)=>{
 
     const total = await User.count(); */
    //resolver 2 promesas simultáneas
-   const [users, total] = Promise.all([
-    User.find({}, ' name email role google')
+   const [users, total] = await Promise.all([
+    User.find({}, ' name email role google img')
     .skip(from)
     .limit(5),
     User.count()

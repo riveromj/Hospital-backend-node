@@ -20,3 +20,11 @@ Generar Token
 ```
 npm i jsonwebtoken
 ```
+Upload File
+```
+npm i express-fileupload
+```
+Generar un identificador unico para los archivos
+```
+npm i uuid
+```
