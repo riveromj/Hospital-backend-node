@@ -1,9 +1,11 @@
 const { response } = require("express");
+
+//models
 const User = require('../models/users');
 const Doctor = require('../models/doctor');
 const Hospital = require('../models/hospital');
 
-const search = async (req, res= response)=>{
+const searchAll = async (req, res= response)=>{
     const word = req.params.word;
     //expresion regulara para una busqueda 
     const regEx = RegExp( word, 'i');
@@ -33,6 +35,43 @@ const search = async (req, res= response)=>{
         })
     }
 }
+
+const searchCollection = async (req, res= response)=>{
+    const word = req.params.word;
+    const table = req.params.table;
+    console.log(req.params);
+    //expresion regulara para una busqueda 
+    const regEx = RegExp( word, 'i');
+    let data =[];
+    
+        switch (table) {
+            case 'doctors':
+                data = await Doctor.find({name:regEx})
+                                    .populate('user','name img')
+                                    .populate('hospital','name img')
+                break;
+            case 'hospitals':
+                data = await Hospital.find({name:regEx})
+                                        .populate('user','name img')
+                break;
+            case 'users':
+                data = await User.find({ name: regEx});
+                break;
+        
+            default:
+                return res.status(400).json({
+                    ok:false,
+                    msg:'colletion not found'
+                });
+
+        }
+        res.json({
+            ok:true,
+            resuls: data
+        });
+      
+}
 module.exports={
-    search
+    searchAll,
+    searchCollection
 }
